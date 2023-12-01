@@ -1,10 +1,10 @@
-package main
+package dayOne
 
 import "testing"
 
 func TestPartOne(t *testing.T) {
 	FileName = "partOneTestData.txt"
-	got := PartOne()
+	got := partOne()
 	want := 142
 
 	if got != want {
@@ -23,12 +23,14 @@ func TestPartTwo(t *testing.T) {
 }
 
 func BenchmarkPartOne(b *testing.B) {
+	FileName = "day1.txt"
 	for i := 0; i < b.N; i++ {
-		PartOne()
+		partOne()
 	}
 }
 
 func BenchmarkPartTwo(b *testing.B) {
+	FileName = "day1.txt"
 	for i := 0; i < b.N; i++ {
 		PartTwo()
 	}

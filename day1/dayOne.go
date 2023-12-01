@@ -1,4 +1,4 @@
-package main
+package dayOne
 
 import (
 	"bufio"
@@ -9,7 +9,7 @@ import (
 	"unicode"
 )
 
-var FileName string = "day1.txt"
+var FileName string = "./day1/day1.txt"
 
 var numbersMap map[string]string = map[string]string{
 	"one":   "o1e",
@@ -23,12 +23,12 @@ var numbersMap map[string]string = map[string]string{
 	"nine":  "n9e",
 }
 
-func main() {
-	fmt.Println("Part 1: ", PartOne())
+func Run() {
+	fmt.Println("Part 1: ", partOne())
 	fmt.Println("Part 2: ", PartTwo())
 }
 
-func PartOne() int {
+func partOne() int {
 	fileScanner := getFileScanner()
 	result := 0
 	for fileScanner.Scan() {
