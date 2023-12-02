@@ -25,7 +25,7 @@ var numbersMap map[string]string = map[string]string{
 
 func Run() {
 	fmt.Println("Part 1: ", partOne())
-	fmt.Println("Part 2: ", PartTwo())
+	fmt.Println("Part 2: ", partTwo())
 }
 
 func partOne() int {
@@ -38,7 +38,7 @@ func partOne() int {
 	return result
 }
 
-func PartTwo() int {
+func partTwo() int {
 	fileScanner := getFileScanner()
 	result := 0
 	for fileScanner.Scan() {

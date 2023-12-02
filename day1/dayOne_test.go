@@ -14,7 +14,7 @@ func TestPartOne(t *testing.T) {
 
 func TestPartTwo(t *testing.T) {
 	FileName = "partTwoTestData.txt"
-	got := PartTwo()
+	got := partTwo()
 	want := 281
 
 	if got != want {
@@ -32,6 +32,6 @@ func BenchmarkPartOne(b *testing.B) {
 func BenchmarkPartTwo(b *testing.B) {
 	FileName = "day1.txt"
 	for i := 0; i < b.N; i++ {
-		PartTwo()
+		partTwo()
 	}
 }
