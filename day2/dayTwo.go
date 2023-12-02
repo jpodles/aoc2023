@@ -1,22 +1,36 @@
 package dayTwo
 
 import (
-	"bufio"
+	"aoc2023/utils"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-type game struct {
-	Id    int
+type Game struct {
+	Id     int
+	Rounds []Round
+}
+
+func (g Game) IsValid() bool {
+	isValid := true
+	for _, r := range g.Rounds {
+		if !r.IsValid() {
+			isValid = false
+			break
+		}
+	}
+	return isValid
+}
+
+type Round struct {
 	Red   int
 	Green int
 	Blue  int
 }
 
-func (g game) IsValid() bool {
-	if g.Red <= 12 && g.Green <= 13 && g.Blue <= 14 {
+func (r Round) IsValid() bool {
+	if r.Red <= 12 && r.Green <= 13 && r.Blue <= 14 {
 		return true
 	}
 	return false
@@ -25,84 +39,70 @@ func (g game) IsValid() bool {
 var FileName string = "./day2/day2.txt"
 
 func Run() {
-	fmt.Println("day two")
-	fmt.Println("part one: ", PartOne())
+	fmt.Println("Day 2 =========")
+	fmt.Println("Part 1: ", PartOne())
 }
 
 func PartOne() int {
-	fileScanner := getFileScanner()
-	//games := []game{}
+	fileScanner := utils.GetFileScanner(FileName)
 	result := 0
 	for fileScanner.Scan() {
-		g := game{}
-		line := fileScanner.Text()
-		data := strings.Split(line, ":")
-		gameData := data[0]
-		gameIdString := strings.Split(gameData, " ")
-		gameId, err := strconv.Atoi(string(gameIdString[1]))
-		if err != nil {
-			fmt.Println(err)
+		game := getGameDataFromString(fileScanner.Text())
+		if game.IsValid() {
+			result += game.Id
 		}
-		g.Id = gameId
-		gameRoundsData := data[1]
-		roundData := strings.Split(gameRoundsData, ";")
-
-		valid := make([]bool, len(roundData))
-		for i := 0; i < len(valid); i++ {
-			valid[i] = true
-		}
-
-		for idx, r := range roundData {
-			colorsData := []string{}
-			colorsData = append(colorsData, strings.Split(r, ",")...)
-			for _, c := range colorsData {
-				x := strings.Split(strings.TrimSpace(c), " ")
-				colorType := string(x[1])
-				n, err := strconv.Atoi(string(x[0]))
-				if err != nil {
-					fmt.Println(50, err)
-				}
-				switch colorType {
-				case "red":
-					g.Red = n
-				case "green":
-					g.Green = n
-				case "blue":
-					g.Blue = n
-				}
-			}
-			valid[idx] = g.IsValid()
-		}
-
-		isValid := true
-		for _, v := range valid {
-			if !v {
-				isValid = false
-				break
-			}
-		}
-
-		if isValid {
-			result += g.Id
-		}
-
 	}
 
 	return result
 }
 
-func PartTwo() {
+func PartTwo(line string) {
 
 }
 
-func getFileScanner() *bufio.Scanner {
-	readFile, err := os.Open(FileName)
+func getGameDataFromString(line string) Game {
+	game := Game{}
+	var roundData []string
+	game.Id, roundData = getGameId(line)
+
+	for _, r := range roundData {
+		gameRound := Round{}
+		colorsData := []string{}
+		colorsData = append(colorsData, strings.Split(r, ",")...)
+		for _, c := range colorsData {
+			x := strings.Split(strings.TrimSpace(c), " ")
+			colorType := string(x[1])
+			n, err := strconv.Atoi(string(x[0]))
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			switch colorType {
+			case "red":
+				gameRound.Red = n
+			case "green":
+				gameRound.Green = n
+			case "blue":
+				gameRound.Blue = n
+			}
+			game.Rounds = append(game.Rounds, gameRound)
+		}
+	}
+
+	return game
+}
+
+func getGameId(input string) (int, []string) {
+	data := strings.Split(input, ":")
+	gameData := data[0]
+	gameIdString := strings.Split(gameData, " ")
+	gameId, err := strconv.Atoi(string(gameIdString[1]))
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fileScanner := bufio.NewScanner(readFile)
-	fileScanner.Split(bufio.ScanLines)
+	gameRoundsData := data[1]
+	roundData := strings.Split(gameRoundsData, ";")
 
-	return fileScanner
+	return gameId, roundData
 }

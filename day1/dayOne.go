@@ -1,6 +1,7 @@
 package dayOne
 
 import (
+	"aoc2023/utils"
 	"bufio"
 	"fmt"
 	"os"
@@ -24,12 +25,13 @@ var numbersMap map[string]string = map[string]string{
 }
 
 func Run() {
+	fmt.Println("Day 1 =========")
 	fmt.Println("Part 1: ", partOne())
 	fmt.Println("Part 2: ", partTwo())
 }
 
 func partOne() int {
-	fileScanner := getFileScanner()
+	fileScanner := utils.GetFileScanner(FileName)
 	result := 0
 	for fileScanner.Scan() {
 		line := fileScanner.Text()
@@ -39,7 +41,7 @@ func partOne() int {
 }
 
 func partTwo() int {
-	fileScanner := getFileScanner()
+	fileScanner := utils.GetFileScanner(FileName)
 	result := 0
 	for fileScanner.Scan() {
 		line := fileScanner.Text()

@@ -11,3 +11,10 @@ func TestPartOne(t *testing.T) {
 		t.Errorf("got %d, wanted %d", got, want)
 	}
 }
+
+func BenchmarkPartOne(b *testing.B) {
+	FileName = "day2.txt"
+	for i := 0; i < b.N; i++ {
+		PartOne()
+	}
+}
