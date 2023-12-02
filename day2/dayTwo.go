@@ -3,6 +3,7 @@ package dayTwo
 import (
 	"aoc2023/utils"
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -39,11 +40,12 @@ func (r Round) IsValid() bool {
 var FileName string = "./day2/day2.txt"
 
 func Run() {
-	fmt.Println("Day 2 =========")
-	fmt.Println("Part 1: ", PartOne())
+	fmt.Println("========= Day 2 =========")
+	fmt.Println("Part 1: ", partOne())
+	fmt.Println("Part 2: ", partTwo())
 }
 
-func PartOne() int {
+func partOne() int {
 	fileScanner := utils.GetFileScanner(FileName)
 	result := 0
 	for fileScanner.Scan() {
@@ -56,8 +58,25 @@ func PartOne() int {
 	return result
 }
 
-func PartTwo(line string) {
+func partTwo() int {
+	fileScanner := utils.GetFileScanner(FileName)
+	result := 0
+	for fileScanner.Scan() {
+		game := getGameDataFromString(fileScanner.Text())
+		red, green, blue := []int{}, []int{}, []int{}
+		for _, round := range game.Rounds {
+			red = append(red, round.Red)
+			green = append(green, round.Green)
+			blue = append(blue, round.Blue)
+		}
 
+		rMax := slices.Max(red)
+		gMax := slices.Max(green)
+		bMax := slices.Max(blue)
+		result += rMax * gMax * bMax
+	}
+
+	return result
 }
 
 func getGameDataFromString(line string) Game {

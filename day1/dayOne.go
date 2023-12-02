@@ -25,7 +25,7 @@ var numbersMap map[string]string = map[string]string{
 }
 
 func Run() {
-	fmt.Println("Day 1 =========")
+	fmt.Println("========= Day 1 =========")
 	fmt.Println("Part 1: ", partOne())
 	fmt.Println("Part 2: ", partTwo())
 }
